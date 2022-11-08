@@ -1,0 +1,26 @@
+#!/bin/bash
+sudo apt-get install apache2 -y
+sudo systemctl enable apache2
+sudo mv /var/www/html/index.html /var/www/html/index.html.bak
+sudo nano /var/www/html/index.html
+<!DOCTYPE html>
+</head>
+<body>
+  <h1>Ihor Shan</h1>
+</body>
+</html>
+sudo mkdir -p /var/www/html/test
+sudo chown -R $USER:$USER /var/www/html/test
+sudo chmod -R 755 /var/www/html/test
+sudo cp /var/www/html/index.html /var/www/html/test/
+sudo nano /etc/apache2/sites-availabel/test.conf
+<VirtualHost *:80>
+    ServerAdmin admin@example.com
+    ServerName example.com
+    ServerAlias www.example.com
+    DocumentRoot /var/www/html/test
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomerLog ${APACHE_LOG_DIR}/access.log combined
+  </VirtualHost>
+  sudo a2ensite test.conf
+  sudo systemctl reload apache2
